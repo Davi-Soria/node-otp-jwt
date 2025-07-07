@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { authSignInSchema } from "../schemas/auth.signin";
 import { getUserByEmail } from "../services/user";
 import { generateOtp } from "../services/otp";
+import { sendEmail } from "../libs/mailtrap";
 
 export const signin: RequestHandler = async (req, res) => {
     // Validar os dados recebidos;
@@ -20,6 +21,8 @@ export const signin: RequestHandler = async (req, res) => {
     const otp = await generateOtp(user.id);
 
     // Enviar um email para o usuário com o código
+    await sendEmail('teste@teste.com', 'Assunto de teste', 'Corpo do email');
+
     // Devolve o ID do código OTP
     res.json({ id: otp.id });
 }
